@@ -40,7 +40,7 @@
    WeightNotes:WeightNotes
   };
  };
- Client.Main$73$20=function(strContainsOnlyNumber,msg,newWeight)
+ Client.Main$92$20=function(strContainsOnlyNumber,msg,newWeight)
  {
   return function(e)
   {
@@ -65,7 +65,7 @@
  };
  Client.Main=function()
  {
-  var $1,data,chart,msg,b,M,_this,G,_this$1,t,_this$2,p,i,newWeight,e,x,l;
+  var $1,data,chart,msg,b,M,_this,G,_this$1,t,_this$2,p,i,newWeight,e,x,l,e$1,x$1,e$2,x$2,l$1,l$2;
   function input(entry)
   {
    var b$1,_this$3,_this$4,_this$5,p$1,i$1;
@@ -109,6 +109,38 @@
    if(typeof e=="object"&&"Dispose"in e)
     e.Dispose();
   }
+  e$1=Enumerator.Get(newWeight);
+  try
+  {
+   while(e$1.MoveNext())
+    {
+     x$1=e$1.Current();
+     if(Global.Number(x$1.WeightValue)<Client.minWeight())
+      Client.set_minWeight(Global.Number(x$1.WeightValue));
+     if(Client.maxWeight()<Global.Number(x$1.WeightValue))
+      Client.set_maxWeight(Global.Number(x$1.WeightValue));
+    }
+  }
+  finally
+  {
+   if(typeof e$1=="object"&&"Dispose"in e$1)
+    e$1.Dispose();
+  }
+  e$2=Enumerator.Get(newWeight);
+  try
+  {
+   while(e$2.MoveNext())
+    {
+     x$2=e$2.Current();
+     Client.set_dataMin((l$1=List.ofArray([[x$2.WeightDate,Client.minWeight()-(Client.maxWeight()-Client.minWeight())]]),List.append(Client.dataMin(),l$1)));
+     Client.set_dataMax((l$2=List.ofArray([[x$2.WeightDate,Client.maxWeight()+(Client.maxWeight()-Client.minWeight())]]),List.append(Client.dataMax(),l$2)));
+    }
+  }
+  finally
+  {
+   if(typeof e$2=="object"&&"Dispose"in e$2)
+    e$2.Dispose();
+  }
   data=Doc.BindView(function(lm)
   {
    return Doc.Concat(Seq.map(input,Seq.sortBy(function(t$1)
@@ -122,6 +154,18 @@
   })).__WithPointColor(new Pervasives.Color({
    $:2,
    $0:"Blue"
+  })),Chart.Line$1(Client.dataMin()).__WithStrokeColor(new Pervasives.Color({
+   $:2,
+   $0:"ghostwhite"
+  })).__WithPointColor(new Pervasives.Color({
+   $:2,
+   $0:"ghostwhite"
+  })),Chart.Line$1(Client.dataMax()).__WithStrokeColor(new Pervasives.Color({
+   $:2,
+   $0:"ghostwhite"
+  })).__WithPointColor(new Pervasives.Color({
+   $:2,
+   $0:"ghostwhite"
   }))]);
   msg=Var$1.Create$1("");
   return(b=(M=msg.get_View(),_this=(G=ChartJs.Render$2(chart,null,null,{
@@ -134,23 +178,23 @@
   }),_this$2),t.h.push(Handler.EventQ2(t.k,"onsend",function()
   {
    return t.i;
-  },function(e$1)
+  },function(e$3)
   {
-   var a,l$1;
-   if(e$1.Vars.Hole("inputweight").$1.Get()===""||e$1.Vars.Hole("inputdate").$1.Get()===""||!strContainsOnlyNumber(e$1.Vars.Hole("inputweight").$1.Get()))
+   var a,l$3;
+   if(e$3.Vars.Hole("inputweight").$1.Get()===""||e$3.Vars.Hole("inputdate").$1.Get()===""||!strContainsOnlyNumber(e$3.Vars.Hole("inputweight").$1.Get()))
     msg.Set("Please input a valid value");
    else
     {
      msg.Set("Ok.");
-     a=Weight.Create(e$1.Vars.Hole("inputweight").$1.Get(),e$1.Vars.Hole("inputdate").$1.Get(),e$1.Vars.Hole("inputnotes").$1.Get());
+     a=Weight.Create(e$3.Vars.Hole("inputweight").$1.Get(),e$3.Vars.Hole("inputdate").$1.Get(),e$3.Vars.Hole("inputnotes").$1.Get());
      Client.weightLog().Append(a);
-     newWeight.Append(Weight.Create(e$1.Vars.Hole("inputweight").$1.Get(),e$1.Vars.Hole("inputdate").$1.Get(),e$1.Vars.Hole("inputnotes").$1.Get()));
-     e$1.Vars.Hole("inputweight").$1.Get();
+     newWeight.Append(Weight.Create(e$3.Vars.Hole("inputweight").$1.Get(),e$3.Vars.Hole("inputdate").$1.Get(),e$3.Vars.Hole("inputnotes").$1.Get()));
+     e$3.Vars.Hole("inputweight").$1.Get();
      newWeight.Iter(function(t$1)
      {
       Client.datah().Append([t$1.WeightDate,Global.Number(t$1.WeightValue)]);
      });
-     Client.set_dataty((l$1=List.ofArray([["chou",5]]),List.append(Client.dataty(),l$1)));
+     Client.set_dataty((l$3=List.ofArray([["chou",5]]),List.append(Client.dataty(),l$3)));
      msg.Set("Ok.");
     }
   })),t),_this$1.h.push({
@@ -162,6 +206,46 @@
    $0:"msg",
    $1:M
   }),_this),p=Handler.CompleteHoles(b.k,b.h,[["inputweight",0],["inputdate",0],["inputnotes",0]]),i=new TemplateInstance.New(p[1],WeightTracker_Templates.mainform(p[0])),b.i=i,i).get_Doc();
+ };
+ Client.dataMax=function()
+ {
+  SC$1.$cctor();
+  return SC$1.dataMax;
+ };
+ Client.set_dataMax=function($1)
+ {
+  SC$1.$cctor();
+  SC$1.dataMax=$1;
+ };
+ Client.dataMin=function()
+ {
+  SC$1.$cctor();
+  return SC$1.dataMin;
+ };
+ Client.set_dataMin=function($1)
+ {
+  SC$1.$cctor();
+  SC$1.dataMin=$1;
+ };
+ Client.maxWeight=function()
+ {
+  SC$1.$cctor();
+  return SC$1.maxWeight;
+ };
+ Client.set_maxWeight=function($1)
+ {
+  SC$1.$cctor();
+  SC$1.maxWeight=$1;
+ };
+ Client.minWeight=function()
+ {
+  SC$1.$cctor();
+  return SC$1.minWeight;
+ };
+ Client.set_minWeight=function($1)
+ {
+  SC$1.$cctor();
+  SC$1.minWeight=$1;
  };
  Client.dataty=function()
  {
@@ -193,6 +277,10 @@
    Client.datah().Append([Global.String(t.WeightDate),Global.Number(t.WeightValue)]);
   });
   SC$1.dataty=List.T.Empty;
+  SC$1.minWeight=9999;
+  SC$1.maxWeight=0;
+  SC$1.dataMin=List.T.Empty;
+  SC$1.dataMax=List.T.Empty;
  };
  WeightTracker_Templates.input=function(h)
  {

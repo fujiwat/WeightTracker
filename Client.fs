@@ -39,6 +39,10 @@ module Client =
     weightLog.Iter(fun t ->
               (string  t.WeightDate, float t.WeightValue) |> datah.Add )
     let mutable dataty = []
+    let mutable minWeight:float = 9999.
+    let mutable maxWeight:float = 0.
+    let mutable dataMin = []
+    let mutable dataMax = []
    
     let Main () =
         let msg = Var.Create ""
@@ -47,7 +51,15 @@ module Client =
         weightLog.Iter(fun t ->
             Weight.Create (t.WeightValue) (t.WeightDate) (t.WeightNotes) |> newWeight.Add )
         for x in newWeight do
-             dataty  <- [(x.WeightDate,float x.WeightValue)] |> List.append dataty        
+             dataty  <- [(x.WeightDate,float x.WeightValue)] |> List.append dataty
+
+        for x in newWeight do
+            if ((float x.WeightValue) < minWeight) then minWeight <- (float x.WeightValue)
+            if (maxWeight < (float x.WeightValue)) then maxWeight <- (float x.WeightValue)
+        for x in newWeight do
+             dataMin  <- [(x.WeightDate,float minWeight-(maxWeight-minWeight))] |> List.append dataMin
+             dataMax  <- [(x.WeightDate,float maxWeight+(maxWeight-minWeight))] |> List.append dataMax
+
         let input entry =
             Templates.MainTemplate.input()
                 .theWeight(entry.WeightValue)
@@ -62,10 +74,17 @@ module Client =
                 |> Seq.map input
                 |> Doc.Concat
             )
+
         let  chart = Chart.Combine [
             Chart.Line(dataty)
                 .WithStrokeColor(Color.Name("Blue"))
                 .WithPointColor(Color.Name("Blue"))
+            Chart.Line(dataMin)
+                .WithStrokeColor(Color.Name("ghostwhite"))
+                .WithPointColor(Color.Name("ghostwhite"))
+            Chart.Line(dataMax)
+                .WithStrokeColor(Color.Name("ghostwhite"))
+                .WithPointColor(Color.Name("ghostwhite"))
         ]
         let msg = Var.Create ""
         Templates.MainTemplate.MainForm()
