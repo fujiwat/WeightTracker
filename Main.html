@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>${Title}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+    <style>
+        /* Sticky footer styles */
+        html {
+            position: relative;
+            min-height: 100%;
+        }
+
+        body {
+            /* Margin bottom by footer height */
+            margin-bottom: 60px;
+            background-color: whitesmoke;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            /* Set the fixed height of the footer here */
+            height: 60px;
+            background-color:   aliceblue;
+        }
+
+        h1 {
+            font-weight: bold;
+        }
+        h3 {
+            color: darkblue;
+        }
+        .container .text-muted {
+            margin: 20px 0;
+        }
+
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid;
+            border-color: floralwhite;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            text-align: center;
+            background-color: darksalmon;
+        }
+
+        tr:nth-child(even) {
+            background-color: lavenderblush;
+        }
+        tr:nth-child(odd) {
+            background-color: #F0B6A2;
+        }
+
+        label {
+            font-size: 20px;
+            font-family: 'Courier New';
+        }
+        input {
+            padding: 4px 4px;
+            font-size: 20px;
+        }
+        button {
+            border: none;
+            color: white;
+            padding: 4px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 20px;
+            font-family: 'Courier New';
+            font-weight: bold;
+            margin: 2px 0px;
+            transition-duration: 0.3s;
+            cursor: pointer;
+        }
+
+        .button1 {
+            background-color: white;
+            color: darkblue;
+            border: 2px solid;
+            border-color: brown;
+        }
+
+        .button1:hover {
+            background-color: burlywood;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Static navbar -->
+    <nav class="navbar navbar-default navbar-static-top" style="background-color: burlywood ">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">My Weight Tracker 2022</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav" style="color: burlywood" ws-hole="MenuBar"></ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="https://websharper.com" style="color:darkblue">websharper.com</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 style="color: darkblue ">My Weight Tracker 2022</h1>
+        <div ws-replace="Body">
+            <br />
+            <div ws-template="MainForm">
+                <br />
+                <div class="row ">
+                    <div class="col-sm-8">
+                        <label>My Weight:</label>
+                        <input style="width:100px;" ws-var="inputWeight" type="text">
+                        <label for="id_date" style="color:darkblue;font-size: 20px;">&nbsp;Date:</label>
+                        <input id=""id_date" ws-var="inputDate" type="date" style="width:180px; height:40px" name="date"
+                               value="2022-05-25" min="2020-01-01" max="2024-12-31"><br />
+                        <label for="id_notes">Notes:</label>
+                        <input id="id_notes" style="width:400px;" ws-var="inputNotes" type="text"><br />
+                        <button ws-onclick="OnSend" class="button1">Ready!</button>
+                        <br />
+                        <div style="color:blue;font-weight:bold">${Msg}</div>
+                        <h3 style="font-weight:bold; background-color: lightgreen">Weight Log</h3>
+                        <br />
+                        <table wh-hole="Data">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Weight</th>
+                                    <th>Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody ws-hole="Log">
+                                <tr ws-template="input">
+                                    <td ws-hole="theDate"></td>
+                                    <td ws-hole="theWeight"> kg</td>
+                                    <td ws-hole="theNotes"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br />
+                        <br />
+                        <br />
+                        <h3 style="font-weight: bold; background-color: lightgreen">Weight Chart</h3>
+                        <br />
+                        <div style="background-color: ghostwhite"><span ws-hole="Graph"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script ws-replace="scripts"></script>
+</body>
+</html>
