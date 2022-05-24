@@ -81,14 +81,12 @@ module Client =
                         |> weightLog.Add
                         Weight.Create (e.Vars.inputWeight.Value) ( e.Vars.inputDate.Value) (e.Vars.inputNotes.Value)
                         |> newWeight.Add
-                        datah.Clear()
+                        let lastitem = float e.Vars.inputWeight.Value
                         newWeight.Iter(fun t ->(t.WeightDate,float t.WeightValue) |> datah.Add )
 //test
-                        dataty <- []
-                        for x in newWeight do
-                             dataty  <- [(x.WeightDate,float x.WeightValue)] |> List.append dataty
-                        
-                        chart.UpdateData(10, fun e -> e + 20.)
+                        dataty  <- ([("chou",5.0)] |> List.append dataty)
+                        msg := "Ok."
+//                        chart.UpdateData(5, fun e -> e + 10.)
 //test end
                 )
             )

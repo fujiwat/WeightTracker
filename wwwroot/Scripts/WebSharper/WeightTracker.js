@@ -1,7 +1,7 @@
 (function(Global)
 {
  "use strict";
- var WeightTracker,Client,Weight,SC$1,WeightTracker_Templates,WebSharper,List,Enumerator,Charting,Chart,Pervasives,UI,Templating,Runtime,Server,ProviderBuilder,Handler,TemplateInstance,Var$1,ListModel,Doc,Seq,Renderers,ChartJs,Client$1,Templates;
+ var WeightTracker,Client,Weight,SC$1,WeightTracker_Templates,WebSharper,List,UI,Templating,Runtime,Server,ProviderBuilder,Handler,TemplateInstance,Var$1,ListModel,Enumerator,Doc,Seq,Charting,Chart,Pervasives,Renderers,ChartJs,Client$1,Templates;
  WeightTracker=Global.WeightTracker=Global.WeightTracker||{};
  Client=WeightTracker.Client=WeightTracker.Client||{};
  Weight=Client.Weight=Client.Weight||{};
@@ -9,10 +9,6 @@
  WeightTracker_Templates=Global.WeightTracker_Templates=Global.WeightTracker_Templates||{};
  WebSharper=Global.WebSharper;
  List=WebSharper&&WebSharper.List;
- Enumerator=WebSharper&&WebSharper.Enumerator;
- Charting=WebSharper&&WebSharper.Charting;
- Chart=Charting&&Charting.Chart;
- Pervasives=Charting&&Charting.Pervasives;
  UI=WebSharper&&WebSharper.UI;
  Templating=UI&&UI.Templating;
  Runtime=Templating&&Templating.Runtime;
@@ -22,8 +18,12 @@
  TemplateInstance=Server&&Server.TemplateInstance;
  Var$1=UI&&UI.Var$1;
  ListModel=UI&&UI.ListModel;
+ Enumerator=WebSharper&&WebSharper.Enumerator;
  Doc=UI&&UI.Doc;
  Seq=WebSharper&&WebSharper.Seq;
+ Charting=WebSharper&&WebSharper.Charting;
+ Chart=Charting&&Charting.Chart;
+ Pervasives=Charting&&Charting.Pervasives;
  Renderers=Charting&&Charting.Renderers;
  ChartJs=Renderers&&Renderers.ChartJs;
  Client$1=UI&&UI.Client;
@@ -44,7 +44,7 @@
  {
   return function(e)
   {
-   var a,e$1,x,l;
+   var a,l;
    if(e.Vars.Hole("inputweight").$1.Get()===""||e.Vars.Hole("inputdate").$1.Get()===""||!strContainsOnlyNumber(e.Vars.Hole("inputweight").$1.Get()))
     msg.Set("Please input a valid value");
    else
@@ -53,33 +53,13 @@
      a=Weight.Create(e.Vars.Hole("inputweight").$1.Get(),e.Vars.Hole("inputdate").$1.Get(),e.Vars.Hole("inputnotes").$1.Get());
      Client.weightLog().Append(a);
      newWeight.Append(Weight.Create(e.Vars.Hole("inputweight").$1.Get(),e.Vars.Hole("inputdate").$1.Get(),e.Vars.Hole("inputnotes").$1.Get()));
-     Client.datah().Clear();
+     e.Vars.Hole("inputweight").$1.Get();
      newWeight.Iter(function(t)
      {
       Client.datah().Append([t.WeightDate,Global.Number(t.WeightValue)]);
      });
-     Client.set_dataty(List.T.Empty);
-     e$1=Enumerator.Get(newWeight);
-     try
-     {
-      while(e$1.MoveNext())
-       {
-        x=e$1.Current();
-        Client.set_dataty((l=List.ofArray([[x.WeightDate,Global.Number(x.WeightValue)]]),List.append(Client.dataty(),l)));
-       }
-     }
-     finally
-     {
-      if(typeof e$1=="object"&&"Dispose"in e$1)
-       e$1.Dispose();
-     }
-     Chart.Line$1(Client.dataty()).__WithStrokeColor(new Pervasives.Color({
-      $:2,
-      $0:"Blue"
-     })).__UpdateData(10,function(e$2)
-     {
-      return e$2+20;
-     });
+     Client.set_dataty((l=List.ofArray([["chou",5]]),List.append(Client.dataty(),l)));
+     msg.Set("Ok.");
     }
   };
  };
@@ -156,7 +136,7 @@
    return t.i;
   },function(e$1)
   {
-   var a,e$2,x$1,l$1;
+   var a,l$1;
    if(e$1.Vars.Hole("inputweight").$1.Get()===""||e$1.Vars.Hole("inputdate").$1.Get()===""||!strContainsOnlyNumber(e$1.Vars.Hole("inputweight").$1.Get()))
     msg.Set("Please input a valid value");
    else
@@ -165,33 +145,13 @@
      a=Weight.Create(e$1.Vars.Hole("inputweight").$1.Get(),e$1.Vars.Hole("inputdate").$1.Get(),e$1.Vars.Hole("inputnotes").$1.Get());
      Client.weightLog().Append(a);
      newWeight.Append(Weight.Create(e$1.Vars.Hole("inputweight").$1.Get(),e$1.Vars.Hole("inputdate").$1.Get(),e$1.Vars.Hole("inputnotes").$1.Get()));
-     Client.datah().Clear();
+     e$1.Vars.Hole("inputweight").$1.Get();
      newWeight.Iter(function(t$1)
      {
       Client.datah().Append([t$1.WeightDate,Global.Number(t$1.WeightValue)]);
      });
-     Client.set_dataty(List.T.Empty);
-     e$2=Enumerator.Get(newWeight);
-     try
-     {
-      while(e$2.MoveNext())
-       {
-        x$1=e$2.Current();
-        Client.set_dataty((l$1=List.ofArray([[x$1.WeightDate,Global.Number(x$1.WeightValue)]]),List.append(Client.dataty(),l$1)));
-       }
-     }
-     finally
-     {
-      if(typeof e$2=="object"&&"Dispose"in e$2)
-       e$2.Dispose();
-     }
-     Chart.Line$1(Client.dataty()).__WithStrokeColor(new Pervasives.Color({
-      $:2,
-      $0:"Blue"
-     })).__UpdateData(10,function(e$3)
-     {
-      return e$3+20;
-     });
+     Client.set_dataty((l$1=List.ofArray([["chou",5]]),List.append(Client.dataty(),l$1)));
+     msg.Set("Ok.");
     }
   })),t),_this$1.h.push({
    $:0,
